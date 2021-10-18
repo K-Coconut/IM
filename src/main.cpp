@@ -4,7 +4,7 @@
 #include "memoryusage.h"
 #include "head.h"
 using namespace std;
-namespace fs = std::__fs::filesystem;
+namespace fs = std::filesystem;
 
 class Argument
 {
@@ -93,7 +93,8 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
     char buff[200];
     for (const auto &entry : fs::directory_iterator(folder))
     {
-        if (std::regex_search(entry.path().filename().string(), results, re))
+        string filename = entry.path().filename().string();
+        if (std::regex_search(filename, results, re))
         {
             if (mode.find("epoch") != string::npos)
             {
