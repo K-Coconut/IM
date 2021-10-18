@@ -174,9 +174,9 @@ int64 timer_elapse(string arg="default"){ // unit ms
 #endif
 
 
-static inline string &ltrim(string &s) { s.erase(s.begin(), find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))); return s; }
-static inline string &rtrim(string &s) { s.erase(find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(), s.end()); return s; }
-static inline string &trim(string &s) { return ltrim(rtrim(s)); }
+static inline void ltrim(std::string &s) {s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {return !std::isspace(ch);}));}
+static inline void rtrim(std::string &s) {s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {return !std::isspace(ch);}).base(), s.end());}
+static inline void trim(std::string &s) {rtrim(s);}
 string __n_variable(string t, int n){ t=t+','; int i=0; if(n) for(; i<SIZE(t)&&n; i++) if(t[i]==',') n--; n=i; for(;t[i]!=',';i++); t=t.substr(n, i-n); trim(t);if(t[0]=='"') return ""; return t+"="; }
 #define __expand_nv(x) __n_variable(t, x)<< t##x << " "
 template<class T0>
