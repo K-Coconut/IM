@@ -63,7 +63,7 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
         input_pattern = "large_graph_epoch_(\\d+)-result_RL_(\\d+)_nbs_0.003";
         output_pattern = "large_graph_epoch_%d_reward_RL_budget_%d_nbs_0.003";
     }
-    else if (mode == "imm" || mode == "interp_imm")
+    else if (mode == "imm" || mode == "interp_imm" || mode == "dense_imm")
     {
         input_pattern = "large_graph_ic_imm_sol_eps0.5_num_k_(\\d+)_iter_(\\d+).txt";
         output_pattern = "imm_influence_%d.txt";
@@ -71,6 +71,8 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
             folder += "/multi_iter/";
         if (mode == "interp_imm")
             folder += "/interp/multi_iter/";
+        if (mode == "dense_imm")
+            folder += "/multi_iter/dense/";
     }
     else if (mode == "DDiscount" || mode == "SingleDiscount")
     {
@@ -180,6 +182,11 @@ vector<string> getFileName(string base_dir, string mode, int budget, int n_iter 
     {
         inputFile = "/multi_iter/large_graph_ic_imm_sol_eps0.5_num_k_" + to_string(budget) + "_iter_" + to_string(n_iter) + ".txt";
         outputFile = "/multi_iter/imm_influence_" + to_string(budget) + ".txt";
+    }
+    else if (mode == "dense_imm")
+    {
+        inputFile = "/multi_iter/dense/large_graph_ic_imm_sol_eps0.5_num_k_" + to_string(budget) + "_iter_" + to_string(n_iter) + ".txt";
+        outputFile = "/multi_iter/dense/imm_influence_" + to_string(budget) + ".txt";
     }
     else if (mode == "DDiscount" || mode == "SingleDiscount")
     {
@@ -293,7 +300,7 @@ void Run(int argn, char **argv)
         {
             if (argv[i + 1] == string("all"))
             {
-                arg.mode = {"gcomb", "epoch_gcomb", "imm", "interp_imm"}; //, "SingleDiscount", "DDiscount"};
+                arg.mode = {"gcomb", "epoch_gcomb", "imm", "interp_imm", "dense_imm"}; //, "SingleDiscount", "DDiscount"};
             }
             else
             {
