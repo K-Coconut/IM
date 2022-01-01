@@ -43,7 +43,7 @@ void readConfiguration(Argument &A, Task &T)
         }
     }
     cin.close();
-    T.base_dir = base_dir + A.dataset + "/TV/test/";
+    T.base_dir = base_dir + A.dataset + "/WT/test/";
     cout << "base directory: " << T.base_dir << endl;
 }
 
@@ -232,7 +232,7 @@ void run_with_parameter(InfGraph &g, const Argument &arg, Task &T)
     clock_t time_start = clock();
     g.build_hyper_graph_r(arg);
     clock_t time_end = clock();
-    cout << "RR sets generated, costs: " << (float)(time_end - time_start) / CLOCKS_PER_SEC << " sec"<< endl;
+    cout << "RR sets generated, costs: " << (float)(time_end - time_start) / CLOCKS_PER_SEC << " sec" << endl;
 
     for (const auto &entry : T.modeWithBudgetsAndEpochs)
     {
