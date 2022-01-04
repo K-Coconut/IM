@@ -94,12 +94,9 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
     regex re(input_pattern);
     smatch results;
     char buff[200];
-    cout << folder << endl;
-    cout << input_pattern << endl;
     for (const auto &entry : fs::directory_iterator(folder))
     {
         string filename = entry.path().filename().string();
-        cout << filename << endl;
         if (std::regex_search(filename, results, re))
         {
             if (mode.find("epoch") != string::npos)
@@ -124,7 +121,6 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
                 int budget = atoi(results[1].str().c_str());
                 snprintf(buff, sizeof(buff), output_pattern.c_str(), budget);
                 string dstFile = buff;
-                cout << dstFile << endl;
                 if (fs::exists(folder + dstFile))
                 {
                     cout << "File " << dstFile << " exists, continue" << endl;
