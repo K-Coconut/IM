@@ -76,7 +76,7 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
     }
     else if (mode == "DDiscount" || mode == "SingleDiscount")
     {
-        folder += "/discount/";
+        folder += "/discount/c/";
         input_pattern = mode + "_sol_budget_(\\d+)_iter_(\\d+).*";
         output_pattern = mode + "_reward_%d.txt";
     }
@@ -191,8 +191,8 @@ vector<string> getFileName(string base_dir, string mode, int budget, int n_iter 
     }
     else if (mode == "DDiscount" || mode == "SingleDiscount")
     {
-        inputFile = "discount/" + mode + "_sol_budget_" + to_string(budget) + "_iter_" + to_string(n_iter) + ".txt";
-        outputFile = "discount/" + mode + "_reward_" + to_string(budget) + ".txt";
+        inputFile = "discount/c/" + mode + "_sol_budget_" + to_string(budget) + "_iter_" + to_string(n_iter) + ".txt";
+        outputFile = "discount/c/" + mode + "_reward_" + to_string(budget) + ".txt";
     }
 
     inputFile = base_dir + inputFile;
