@@ -1,5 +1,7 @@
 all: simple im_discrete
 
+# add -lstdc++fs when compiled in HPC
+
 simple: src/*.cpp src/*.h
 	g++ -DDISCRETE -g src/simple.cpp -Wall -std=c++17 -O3 src/sfmt/SFMT.c  -o simple
 
