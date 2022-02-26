@@ -1,7 +1,7 @@
-all: im_continuous im_discrete
+all: simple im_discrete
 
-im_continuous: src/*.cpp src/*.h
-	g++ -DCONTINUOUS -g src/main.cpp -Wall -std=c++17 -O3 src/sfmt/SFMT.c  -o im_continuous
+simple: src/*.cpp src/*.h
+	g++ -DDISCRETE -g src/simple.cpp -Wall -std=c++17 -O3 src/sfmt/SFMT.c  -o simple
 
 im_discrete: src/*.cpp src/*.h
 	g++ -DDISCRETE -g src/main.cpp -Wall -std=c++17 -O3 src/sfmt/SFMT.c  -o im_discrete
@@ -17,8 +17,5 @@ O2:
 profile:
 	g++ src/main.cpp -Wall -std=c++17 -O2 src/sfmt/SFMT.c  -pg -o im.profile
 
-cont_profile:
-	g++ -DCONTINUOUS src/main.cpp -Wall -std=c++17 -O3 src/sfmt/SFMT.c  -o im_continuous -pg -o im_continuous.profile
-
 clean:
-	rm -f *.o *~ im_continuous im_discrete
+	rm -f *.o *~ simple im_discrete

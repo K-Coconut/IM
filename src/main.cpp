@@ -3,6 +3,7 @@
 #include "sfmt/SFMT.h"
 #include "memoryusage.h"
 #include "head.h"
+#include "string.h"
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -32,18 +33,28 @@ void readConfiguration(Argument &A, Task &T)
 {
     string conf = "config";
     string base_dir;
+    string flag;
+    if (A.mode[0] == "rl4im")
+    {
+        flag = "rl4im_dir";
+    } else {
+        flag = "base_dir";
+    }
+
     ifstream cin(conf.c_str());
     ASSERT(!cin == false);
     string line;
     while (cin >> line)
     {
-        if (line.substr(0, 8) == "base_dir")
+        if (line.substr(0, flag.length()) == flag)
         {
-            base_dir = line.substr(9);
+            base_dir = line.substr(flag.length() + 1);
         }
     }
     cin.close();
-    T.base_dir = base_dir + A.dataset + "/WT/test/";
+    T.base_dir = base_dir + A.dataset + "/";
+    if (strcmp(A.mode[0].c_str(), "rl4im") != 0)
+        T.base_dir = T.base_dir + "/WT/test/";
     cout << "base directory: " << T.base_dir << endl;
 }
 
@@ -79,6 +90,11 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
         folder += "/discount/c/";
         input_pattern = mode + "_sol_budget_(\\d+)_iter_(\\d+).*";
         output_pattern = mode + "_reward_%d.txt";
+    }
+    else if (mode == "rl4im")
+    {
+        input_pattern = "budget(\\d+).txt";
+        output_pattern = "influence%d.txt";
     }
     else
     {
@@ -193,6 +209,11 @@ vector<string> getFileName(string base_dir, string mode, int budget, int n_iter 
     {
         inputFile = "discount/c/" + mode + "_sol_budget_" + to_string(budget) + "_iter_" + to_string(n_iter) + ".txt";
         outputFile = "discount/c/" + mode + "_reward_" + to_string(budget) + ".txt";
+    }
+    else if (mode == "rl4im")
+    {
+        inputFile = "budget" + to_string(budget) + ".txt";
+        outputFile = "influence" + to_string(budget) + ".txt";
     }
 
     inputFile = base_dir + inputFile;

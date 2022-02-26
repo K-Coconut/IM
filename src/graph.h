@@ -35,6 +35,7 @@ public:
     {
         cout << ":" << folder << ":" << endl;
         ifstream cin((folder + "attribute.txt").c_str());
+        cout << (folder + "attribute.txt").c_str() << endl;
         ASSERT(!cin == false);
         string s;
         while (cin >> s)
