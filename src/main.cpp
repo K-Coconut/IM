@@ -71,8 +71,8 @@ bool setTasks(string base_dir, string mode, set<int> &budgets, map<int, vector<i
     }
     else if (mode == "epoch_gcomb")
     {
-        input_pattern = "large_graph_epoch_(\\d+)-result_RL_(\\d+)_nbs_0.003";
-        output_pattern = "large_graph_epoch_%d_reward_RL_budget_%d_nbs_0.003";
+        input_pattern = "_epoch_(\\d+)-result_RL_(\\d+)_nbs_0.003";
+        output_pattern = "_epoch_%d_reward_RL_budget_%d_nbs_0.003";
     }
     else if (mode == "imm" || mode == "interp_imm" || mode == "dense_imm")
     {
@@ -187,8 +187,8 @@ vector<string> getFileName(string base_dir, string mode, int budget, int n_iter 
     }
     else if (mode == "epoch_gcomb")
     {
-        inputFile = "large_graph_epoch_" + to_string(epoch) + "-result_RL_" + to_string(budget) + "_nbs_0.003";
-        outputFile = "large_graph_epoch_" + to_string(epoch) + "_reward_RL_budget_" + to_string(budget) + "_nbs_0.003";
+        inputFile = "_epoch_" + to_string(epoch) + "-result_RL_" + to_string(budget) + "_nbs_0.003";
+        outputFile = "_epoch_" + to_string(epoch) + "_reward_RL_budget_" + to_string(budget) + "_nbs_0.003";
     }
     else if (mode == "interp_imm")
     {
