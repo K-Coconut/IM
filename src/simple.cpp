@@ -18,6 +18,7 @@ public:
     int seed_random;
     int64 size;
     int numIters;
+    vector<int> klist;
 };
 
 #include "graph.h"
@@ -58,19 +59,31 @@ void run_with_parameter(InfGraph &g, const Argument &arg)
     clock_t time_end = clock();
     cout << "RR sets generated, costs: " << (float)(time_end - time_start) / CLOCKS_PER_SEC << " sec" << endl;
 
-    string inputFile, outputFile;
-    float coverage = 0.;
-    for (int i = 0; i < arg.numIters; i++)
-    {
+    if (arg.klist.size() != 0) {
+        for (auto k : arg.klist) {
+            string inputFile, outputFile;
+            char buff[1000];
+            snprintf(buff, sizeof(buff), arg.seedFile.c_str(), k);
+            inputFile = buff;
+            char buff2[1000];
+            snprintf(buff2, sizeof(buff2), arg.outputFile.c_str(), k);
+            outputFile = buff2;
+            vector<int> seeds = readSeedSet(inputFile);
+            float coverage = g.InfluenceHyperGraph(seeds, arg);
+            cout << " budget: " << k << " coverage: " << coverage << endl;
+            writeResult(outputFile, coverage);
+        }
+
+    } else {
+        string inputFile, outputFile;
         inputFile = arg.seedFile;
         outputFile = arg.outputFile;
         vector<int> seeds = readSeedSet(inputFile);
-        coverage += g.InfluenceHyperGraph(seeds, arg);
+        float coverage = g.InfluenceHyperGraph(seeds, arg);
+        cout << " budget: " << arg.budget << " coverage: " << coverage << endl;
+        writeResult(outputFile, coverage);
+        Timer::show();
     }
-    coverage /= arg.numIters;
-    cout << " budget: " << arg.budget << " coverage: " << coverage << endl;
-    writeResult(outputFile, coverage);
-    Timer::show();
 }
 void Run(int argn, char **argv)
 {
@@ -94,7 +107,27 @@ void Run(int argn, char **argv)
         
         if (argv[i] == string("-k"))
             arg.budget = atoi(argv[i + 1]);
-
+        
+        if (argv[i] == string("-klist")) {
+            vector<int> klist;
+            string s = argv[i + 1];
+            string delimiter = ",";
+            size_t pos = 0;
+            int budget;
+            string all = "[";
+            while ((pos = s.find(delimiter)) != std::string::npos) {
+                string k = s.substr(0, pos);
+                budget = atoi(k.c_str());
+                klist.push_back(budget);
+                all += k;
+                all += ",";
+                s.erase(0, pos + delimiter.length());
+            }
+            all += "]";
+            cout << "budgets: " << all << endl;
+            arg.klist = klist;
+        }
+        
         if (argv[i] == string("-size"))
             arg.size = atoi(argv[i + 1]);
 
