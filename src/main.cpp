@@ -16,6 +16,7 @@ public:
     int seed_random;
     int64 size;
     int numIters;
+    string weight_model;
 };
 
 class Task
@@ -54,7 +55,7 @@ void readConfiguration(Argument &A, Task &T)
     cin.close();
     T.base_dir = base_dir + A.dataset + "/";
     if (strcmp(A.mode[0].c_str(), "rl4im") != 0)
-        T.base_dir = T.base_dir + "/WT/test/";
+        T.base_dir = T.base_dir + "/" + A.weight_model + "/test/";
     cout << "base directory: " << T.base_dir << endl;
 }
 
@@ -318,6 +319,9 @@ void Run(int argn, char **argv)
         if (argv[i] == string("-num"))
             arg.numIters = atoi(argv[i + 1]);
 
+        if (argv[i] == string("-weight_model"))
+            arg.weight_model = argv[i + 1];
+
         if (argv[i] == string("-mode"))
         {
             if (argv[i + 1] == string("all"))
@@ -336,6 +340,7 @@ void Run(int argn, char **argv)
         }
     }
     ASSERT(arg.dataset != "");
+    ASSERT(arg.weight_model != "");
     Task T;
     readConfiguration(arg, T);
     bool hasTasks = setTasks(arg, T);
