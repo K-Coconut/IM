@@ -16,7 +16,7 @@ public:
     vector<vector<int>> hyperGT;
     int seed_random = 79340556;
 
-    InfGraph(string folder, string graph_file) : Graph(folder, graph_file)
+    InfGraph(string folder, string graph_file, int graph_format) : Graph(folder, graph_file, graph_format)
     {
         sfmt_init_gen_rand(&sfmtSeed, seed_random);
         init_hyper_graph();

@@ -6,7 +6,7 @@ typedef double (*pf)(int, int);
 class Graph
 {
 public:
-    int n, m, k;
+    int n, m, k, graph_format;
     vector<int> inDeg;
     vector<vector<int>> gT;
 
@@ -77,6 +77,10 @@ public:
         FILE *fin = fopen((graph_file).c_str(), "r");
         // ASSERT(fin != false);
         int readCnt = 0;
+        if (graph_format == 2)
+        {
+            fscanf(fin, "%d %d", &n, &m);
+        }
         for (int i = 0; i < m; i++)
         {
             readCnt ++;
@@ -140,10 +144,15 @@ public:
     }
 #endif
 
-    Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
+    Graph(string folder, string graph_file, int graph_format): folder(folder), graph_file(graph_file), graph_format(graph_format)
     {
-        readNM();
-
+        if (graph_format == 1) {
+            readNM();
+        } else {
+            FILE *fin = fopen((graph_file).c_str(), "r");
+            int readCnt = 0;
+            fscanf(fin, "%d %d", &n, &m);
+        }
         //init vector
         FOR(i, n)
         {

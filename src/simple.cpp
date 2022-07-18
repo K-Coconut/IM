@@ -13,6 +13,7 @@ public:
     string seedFile;
     string outputFile;
     string graphFile;
+    int graph_format;
     int budget;
     double T;
     int seed_random;
@@ -88,6 +89,7 @@ void run_with_parameter(InfGraph &g, const Argument &arg)
 void Run(int argn, char **argv)
 {
     Argument arg;
+    arg.graph_format = 1;
 
     for (int i = 0; i < argn; i++)
     {
@@ -104,6 +106,9 @@ void Run(int argn, char **argv)
 
         if (argv[i] == string("-graphFile"))
             arg.graphFile = argv[i + 1];
+
+        if (argv[i] == string("-graph_format"))
+            arg.graph_format = atoi(argv[i+1]);
         
         if (argv[i] == string("-k"))
             arg.budget = atoi(argv[i + 1]);
@@ -139,7 +144,8 @@ void Run(int argn, char **argv)
     string graph_file = arg.graphFile;
     std::size_t found = arg.graphFile.find_last_of("/");
     string folder = arg.graphFile.substr(0, found + 1);
-    InfGraph g(folder, graph_file);
+    int graph_format = arg.graph_format;
+    InfGraph g(folder, graph_file, graph_format);
     g.setInfuModel(InfGraph::IC);
     INFO(arg.T);
 

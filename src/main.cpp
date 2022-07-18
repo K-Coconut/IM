@@ -351,7 +351,7 @@ void Run(int argn, char **argv)
     }
     string graph_file;
     graph_file = T.base_dir + "edges.txt";
-    InfGraph g(T.base_dir, graph_file);
+    InfGraph g(T.base_dir, graph_file, 1);
     g.setInfuModel(InfGraph::IC);
     INFO(arg.T);
 
